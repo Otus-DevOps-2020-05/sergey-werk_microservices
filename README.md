@@ -61,3 +61,33 @@ docker inspect /otus-reddit:1.0
 docker inspect /otus-reddit:1.0 -f '{{.ContainerConfig.Cmd}}'
 docker run --name reddit -d -p 9292:9292 /otus-reddit:1.0
 '''
+
+
+## Docker 2
+
+### Linter
+
+'''
+docker run --rm -i hadolint/hadolint < dockermonolith/Dockerfile
+'''
+
+### Run microservices (HW docker-3)
+'''
+docker pull mongo:latest
+
+
+docker build -t sergeyryzh/post:2.1 ./post-py
+docker build -t sergeyryzh/comment:2.1 ./comment
+docker build -t sergeyryzh/ui:2.1 ./ui
+
+
+docker network create reddit
+docker volume create reddit_db
+docker run -d --network=reddit --network-alias=post_db --network-alias=comment_db --mount source=reddit_db,target=/data/db mongo:latest
+docker run -d --network=reddit --network-alias=post sergeyryzh/post:2.1 
+docker run -d --network=reddit --network-alias=comment sergeyryzh/comment:2.1 
+docker run -d --network=reddit -p 9292:9292 sergeyryzh/ui:2.1
+
+'''
+
+
