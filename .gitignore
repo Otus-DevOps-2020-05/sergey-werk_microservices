@@ -1,0 +1,28 @@
+
+# Packer
+variables.json
+
+# Terraform
+*.tfstate
+*.tfstate.*.backup
+*.tfstate.backup
+*.tfvars
+.terraform/
+tmp/
+
+# Ansible
+env/
+*.retry
+vault.key
+
+# Ansible roles
+jdauphant.nginx
+
+# Vagrant & molecule
+.vagrant/
+*.log
+*.pyc
+.molecule
+.cache
+.pytest_cache
+.yamllint
