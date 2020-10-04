@@ -26,3 +26,6 @@ jdauphant.nginx
 .cache
 .pytest_cache
 .yamllint
+
+# Docker-compose
+.env
