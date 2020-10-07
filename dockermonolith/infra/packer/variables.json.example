@@ -1,0 +1,5 @@
+{
+    "folder_id": "abcdef",
+    "service_account_key_file": "{{ env `HOME` }}/yc/iam_key.json",
+    "zone": "ru-central1-a"
+}

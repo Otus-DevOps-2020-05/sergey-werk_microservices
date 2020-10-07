@@ -1,0 +1,15 @@
+- name: Install Docker
+  hosts: all
+  become: true
+  gather_facts: False
+  tasks:
+    - name: Install docker
+      apt:
+        update_cache: true
+        package: docker.io
+    - name: Enable and start docker service
+      systemd:
+        name: docker
+        state: started
+        enabled: true
+

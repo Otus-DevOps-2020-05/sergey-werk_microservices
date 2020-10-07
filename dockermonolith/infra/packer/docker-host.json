@@ -1,0 +1,30 @@
+{
+    "variables": {
+        "zone": "ru-central1-a",
+	"ansible_dir": "{{ template_dir }}/../ansible/"
+    },
+    "builders": [
+        {
+            "type": "yandex",
+            "service_account_key_file": "{{ user `service_account_key_file` }}",
+            "folder_id": "{{ user `folder_id` }}",
+            "source_image_family": "ubuntu-2004-lts",
+            "image_name": "docker-host-{{ timestamp }}",
+            "image_family": "docker-host",
+            "ssh_username": "ubuntu",
+            "platform_id": "standard-v1",
+            "use_ipv4_nat": true,
+            "disk_size_gb": 4,
+            "disk_type": "network-ssd",
+            "zone": "{{ user `zone` }}"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "ansible",
+            "playbook_file": "{{ user `ansible_dir`}}/playbooks/docker-host.yml",
+            "ansible_env_vars": ["ANSIBLE_ROLES_PATH={{ user `ansible_dir` }}/roles"],
+            "extra_arguments": ["-t \"install\""]
+        }
+    ]
+}
