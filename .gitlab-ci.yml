@@ -4,6 +4,8 @@ stages:
   - build
   - test
   - review
+  - stage
+  - production
 
 
 variables: 
@@ -12,7 +14,6 @@ variables:
 before_script:
   - cd reddit
   - bundle install
-
 
 build_job:
   stage: build
@@ -39,4 +40,21 @@ deploy_dev_job:
     name: dev
     url: http://dev.example.com
 
+staging:
+  stage: stage
+  when: manual
+  script:
+    - echo 'Deploy'
+  environment:
+    name: beta
+    url: http://beta.example.com
+
+production:
+  stage: production
+  when: manual
+  script:
+    - echo 'Deploy'
+  environment:
+    name: production
+    url: http://beta.example.com
 
