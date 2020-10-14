@@ -1,0 +1,27 @@
+version: '3.3'
+services:
+  ui:
+    command: 'puma --debug -w 2'
+    volumes: 
+      - type: bind
+        source: ./ui
+        target: /app
+
+    healthcheck:
+      test: wget --tries=1 -q -O /dev/null -- http://localhost:9292/healthcheck || exit 1
+      interval: 1m25s
+      timeout: 10s
+      retries: 3
+
+  comment:
+    command: 'puma --debug -w 2'
+    volumes: 
+      - type: bind
+        source: ./comment
+        target: /app
+
+  post:
+    volumes: 
+      - type: bind
+        source: ./post-py
+        target: /app
