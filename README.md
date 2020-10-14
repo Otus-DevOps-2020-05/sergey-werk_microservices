@@ -139,3 +139,51 @@ docker run -d --network=reddit -p 9292:9292 sergeyryzh/ui:2.1
 
 ```
 
+### Docker + Gitlab CI
+```
+web:
+  image: 'gitlab/gitlab-ce:latest'
+  restart: always
+  hostname: 'gitlab.example.com'
+  environment:
+    GITLAB_OMNIBUS_CONFIG: |
+      external_url 'http://130.193.50.206'
+  ports:
+    - '80:80'
+    - '443:443'
+    - '2222:22'
+  volumes:
+    - '/srv/gitlab/config:/etc/gitlab'
+    - '/srv/gitlab/logs:/var/log/gitlab'
+    - '/srv/gitlab/data:/var/opt/gitlab
+
+
+stages:
+  - build
+  - test
+  - deploy
+
+build_job:
+  stage: build
+  script:
+    - echo 'Building'
+
+test_unit_job:
+  stage: test
+  script:
+    - echo 'Testing 1'
+
+docker exec -it gitlab-runner gitlab-runner register \
+    --url http://130.193.50.206/ \
+    --non-interactive \
+    --locked=false \
+    --name DockerRunner \
+    --executor docker \
+    --docker-image alpine:latest \
+    --registration-token XXX-XXX-XXX \
+    --tag-list "linux,xenial,ubuntu,docker" \
+    --run-untagged
+
+docker exec -it gitlab-runner gitlab-runner register --help
+
+```
