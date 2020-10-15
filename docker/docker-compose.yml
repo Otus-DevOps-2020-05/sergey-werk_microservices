@@ -10,7 +10,7 @@ services:
           - post_db
           - comment_db
   ui:
-    build: ./ui
+    #    build: ./ui
     image: ${USERNAME}/ui:${VERSION}
     ports:
       - ${UI_PORT}:9292/tcp
@@ -18,21 +18,21 @@ services:
       - front_net
 
   post:
-    build: ./post-py
+    #    build: ./post-py
     image: ${USERNAME}/post:${VERSION}
     networks:
       - front_net
       - back_net
 
   comment:
-    build: ./comment
+    #    build: ./comment
     image: ${USERNAME}/comment:${VERSION}
     networks:
       - front_net
       - back_net
 
   prometheus:
-    image: ${USERNAME}/prometheus
+    image: ${USERNAME}/prometheus:${VERSION}
     ports:
       - '9090:9090'
     volumes:
