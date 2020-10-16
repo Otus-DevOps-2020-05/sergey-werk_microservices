@@ -1,0 +1,8 @@
+REPOSITORY          TAG                 IMAGE ID            CREATED              SIZE
+test                latest              1a32616d5ace        About a minute ago   64.2MB
+ubuntu              20.04               4e2eef94cd6b        3 days ago           73.9MB
+ubuntu              18.04               6526a1858e5d        3 days ago           64.2MB
+hello-world         latest              bf756fb1ae65        7 months ago         13.3kB
+
+# Задание со *
+# Контейнер -- описание того, как запускать образ приложения. 
