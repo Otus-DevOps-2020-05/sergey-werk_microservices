@@ -50,8 +50,8 @@ RUN	export APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=true \
 	&& rm -rf /var/lib/apt/lists/*
 	
 # Ansible
-RUN apt-add-repository --yes ppa:ansible/ansible \
-	&& apt-get install ansible \
+#RUN apt-add-repository --yes ppa:ansible/ansible \
+RUN apt-get update && apt-get install --yes ansible   \
 	&& rm -rf /var/lib/apt/lists/*
 
 # Yandex-Cloud tools
@@ -62,7 +62,8 @@ RUN curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | \
 	&& echo "if [ -f '/opt/yandex-cloud/completion.bash.inc' ]; then source '/opt/yandex-cloud/completion.bash.inc'; fi" \
 		>> /etc/bash.bashrc
 
-CMD addgroup -g $USER_GRP appuser && adduser -u $USER_ID -G appuser -D appuser && su appuser
+# Username is a name of the user, who runs the container
+CMD export USER=${USER:-devop}; addgroup --gid $USER_GRP $USER && adduser --shell /bin/bash --system --uid $USER_ID --gid $USER_GRP --disabled-password $USER && su $USER
 
 LABEL com.example-version="0.0.7-beta"
-LABEL com.example-author="Sergey Ryzhikov <sergey-werk@ya.ru>
+LABEL com.example-author="Sergey Ryzhikov <sergey-werk@ya.ru>"
