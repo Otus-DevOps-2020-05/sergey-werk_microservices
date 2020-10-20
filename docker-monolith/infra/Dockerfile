@@ -25,8 +25,8 @@ RUN apt-get update \
 		htop \
 		dnsutils \
 		sudo \
+		iproute2 \
 	&& rm -rf /var/lib/apt/lists/*
-		# iproute2 \
 
 # Docker
 RUN 	export APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=true \
@@ -56,10 +56,13 @@ RUN apt-add-repository --yes ppa:ansible/ansible \
 
 # Yandex-Cloud tools
 RUN curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | \
-    bash -s -- -a
-# TODO: add bash completion to default profile
+    bash -s -- -i /opt/yandex-cloud -n \
+	&& echo "if [ -f '/opt/yandex-cloud/path.bash.inc' ]; then source '/opt/yandex-cloud/path.bash.inc'; fi" \
+		>> /etc/bash.bashrc \
+	&& echo "if [ -f '/opt/yandex-cloud/completion.bash.inc' ]; then source '/opt/yandex-cloud/completion.bash.inc'; fi" \
+		>> /etc/bash.bashrc
 
-CMD addgroup -g $USER_GRP appuser && adduser -u $USER_ID -G appuser -D appuser && su appuser && cp /
+CMD addgroup -g $USER_GRP appuser && adduser -u $USER_ID -G appuser -D appuser && su appuser
 
 LABEL com.example-version="0.0.7-beta"
 LABEL com.example-author="Sergey Ryzhikov <sergey-werk@ya.ru>
