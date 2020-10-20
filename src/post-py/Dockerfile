@@ -8,9 +8,9 @@ WORKDIR /install
 
 copy requirements.txt /requirements.txt
 
-RUN apk --no-cache --update add build-base && \
+RUN apk --no-cache --update add build-base gcc musl-dev && \
     pip install --prefix=/install -r /requirements.txt && \
-    apk del build-base
+    apk del build-base gcc musl-dev
 
 # 
 FROM python-base
