@@ -62,8 +62,13 @@ RUN curl https://storage.yandexcloud.net/yandexcloud-yc/install.sh | \
 	&& echo "if [ -f '/opt/yandex-cloud/completion.bash.inc' ]; then source '/opt/yandex-cloud/completion.bash.inc'; fi" \
 		>> /etc/bash.bashrc
 
+RUN apt update && apt install locales \
+	&& locale-gen ru_RU.UTF-8
+
+
 # Username is a name of the user, who runs the container
-CMD export USER=${USER:-devop}; addgroup --gid $USER_GRP $USER && adduser --shell /bin/bash --system --uid $USER_ID --gid $USER_GRP --disabled-password $USER && su $USER
+CMD export USER=${USER:-devop}; \
+	export LANG=ru_RU.UTF-8; addgroup --gid $USER_GRP $USER && adduser --shell /bin/bash --system --uid $USER_ID --gid $USER_GRP --disabled-password $USER && su $USER
 
 LABEL com.example-version="0.0.7-beta"
 LABEL com.example-author="Sergey Ryzhikov <sergey-werk@ya.ru>"
